@@ -83,3 +83,11 @@ function currentPipeSpeed() {
   const diff = DIFFICULTIES[selectedDifficulty];
   return diff.speedBase + Math.min(score * diff.speedRamp, diff.speedCap);
 }
+// ---- Menü gombok (canvas-on rajzolt) ----
+const menuButtons = []; // {key, x, y, w, h} - draw() tölti fel minden képkockán
+
+function startGame() {
+  state = GAME_STATE.PLAYING;
+  resetGame();
+  bird.velocity = FLAP_STRENGTH;
+}
