@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madaras Játék</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+<div class="cabinet">
+  <div class="cabinet-header">
+    <h1>Madaras Játék</h1>
+    <span id="highScoreLabel">Legjobb: 0</span>
+  </div>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+  <div class="controls-row">
+    <p class="hint" style="margin-top:0;"><kbd>Space</kbd> — szárnycsapás</p>
+    <button id="fullscreenBtn">⛶ Teljes képernyő</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
