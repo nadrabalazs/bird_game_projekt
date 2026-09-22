@@ -68,3 +68,13 @@ h1 {
   border-radius: 20px;
   white-space: nowrap;
 }
+#gameCanvas {
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+}
