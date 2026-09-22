@@ -22,3 +22,13 @@ body {
   color: var(--cream);
   padding: 24px 16px;
 }
+.cabinet {
+  background: var(--panel);
+  border: 1px solid rgba(255,207,86,0.35);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4) inset,
+    0 24px 60px rgba(10,4,25,0.55);
+  width: min(92vw, 480px);
+}
