@@ -44,3 +44,50 @@ const bird = {
   rotation: 0,
   wingPhase: 0
 };
+// ---- Csövek ----
+let pipes = [];
+let score = 0;
+let highScores = JSON.parse(localStorage.getItem('madarasHighScores') || '{}');
+let frame = 0;
+
+function updateHighScoreLabel() {
+  const diff = DIFFICULTIES[selectedDifficulty];
+  const hs = highScores[selectedDifficulty] || 0;
+  highScoreLabel.textContent = 'Legjobb (' + diff.label + '): ' + hs;
+}
+updateHighScoreLabel();
+
+function resetGame() {
+  bird.y = canvas.height / 2;
+  bird.velocity = 0;
+  pipes = [];
+  score = 0;
+  frame = 0;
+  spawnPipe();
+}
+
+function spawnPipe() {
+  const diff = DIFFICULTIES[selectedDifficulty];
+  const minTop = 60;
+  const maxTop = canvas.height - GROUND_HEIGHT - diff.gap - 60;
+  const topHeight = Math.random() * (maxTop - minTop) + minTop;
+  pipes.push({
+    x: canvas.width,
+    top: topHeight,
+    bottom: topHeight + diff.gap,
+    passed: false
+  });
+}
+
+function currentPipeSpeed() {
+  const diff = DIFFICULTIES[selectedDifficulty];
+  return diff.speedBase + Math.min(score * diff.speedRamp, diff.speedCap);
+}
+// ---- Menü gombok (canvas-on rajzolt) ----
+const menuButtons = []; // {key, x, y, w, h} - draw() tölti fel minden képkockán
+
+function startGame() {
+  state = GAME_STATE.PLAYING;
+  resetGame();
+  bird.velocity = FLAP_STRENGTH;
+}
