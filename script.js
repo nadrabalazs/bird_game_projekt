@@ -35,3 +35,12 @@ const PIPE_WIDTH = 58;
 const PIPE_CAP_HEIGHT = 18;
 const PIPE_SPACING = 220;
 const GROUND_HEIGHT = 60;
+// ---- Madár ----
+const bird = {
+  x: 90,
+  y: canvas.height / 2,
+  radius: 14,
+  velocity: 0,
+  rotation: 0,
+  wingPhase: 0
+};
