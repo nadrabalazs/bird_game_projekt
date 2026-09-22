@@ -91,3 +91,46 @@ function startGame() {
   resetGame();
   bird.velocity = FLAP_STRENGTH;
 }
+// ---- Input ----
+function getCanvasPos(evt) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+  const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+}
+
+function handlePointer(evt) {
+  evt.preventDefault();
+  const pos = getCanvasPos(evt);
+
+  if (state === GAME_STATE.MENU) {
+    for (const btn of menuButtons) {
+      if (pos.x >= btn.x && pos.x <= btn.x + btn.w && pos.y >= btn.y && pos.y <= btn.y + btn.h) {
+        selectedDifficulty = btn.key;
+        updateHighScoreLabel();
+        startGame();
+        return;
+      }
+    }
+    return; // menüben gombon kívüli kattintás nem indít
+  }
+
+  if (state === GAME_STATE.PLAYING) {
+    bird.velocity = FLAP_STRENGTH;
+    bird.wingPhase = 0;
+  } else if (state === GAME_STATE.GAMEOVER) {
+    state = GAME_STATE.MENU;
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.code !== 'Space') return;
+  e.preventDefault();
+  if (state === GAME_STATE.MENU) startGame();
+  else if (state === GAME_STATE.PLAYING) { bird.velocity = FLAP_STRENGTH; bird.wingPhase = 0; }
+  else if (state === GAME_STATE.GAMEOVER) state = GAME_STATE.MENU;
+});
+canvas.addEventListener('mousedown', handlePointer);
+canvas.addEventListener('touchstart', handlePointer);
