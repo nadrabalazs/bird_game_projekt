@@ -354,3 +354,46 @@ function drawMenu() {
     menuButtons.push({ key, x, y, w: btnW, h: btnH });
   });
 }
+function roundRect(x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function drawGameOver() {
+  ctx.fillStyle = 'rgba(20,10,35,0.6)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#fdf3e7';
+  ctx.font = "700 26px 'Baloo 2', sans-serif";
+  ctx.textAlign = 'center';
+  ctx.fillText('Vége a játéknak', canvas.width / 2, canvas.height / 2 - 50);
+
+  ctx.font = "500 15px 'Inter', sans-serif";
+  ctx.fillStyle = '#cbb9d8';
+  ctx.fillText(DIFFICULTIES[selectedDifficulty].label + ' fokozat', canvas.width / 2, canvas.height / 2 - 22);
+
+  ctx.font = "500 18px 'Inter', sans-serif";
+  ctx.fillStyle = '#ffcf56';
+  ctx.fillText('Pontszám: ' + score, canvas.width / 2, canvas.height / 2 + 8);
+  ctx.fillStyle = '#cbb9d8';
+  ctx.fillText('Legjobb: ' + (highScores[selectedDifficulty] || 0), canvas.width / 2, canvas.height / 2 + 34);
+
+  ctx.font = "400 13px 'Inter', sans-serif";
+  ctx.fillStyle = '#cbb9d8';
+  ctx.fillText('Kattints a menühöz', canvas.width / 2, canvas.height / 2 + 72);
+}
+
+// ---- Fő ciklus ----
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+draw();
+loop();
