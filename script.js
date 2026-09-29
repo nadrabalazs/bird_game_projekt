@@ -235,3 +235,88 @@ function drawBackground() {
   ctx.closePath();
   ctx.fill();
 }
+function drawPipes() {
+  for (const pipe of pipes) {
+    drawPipeSegment(pipe.x, 0, PIPE_WIDTH, pipe.top, true);
+    drawPipeSegment(pipe.x, pipe.bottom, PIPE_WIDTH, canvas.height - pipe.bottom - GROUND_HEIGHT, false);
+  }
+}
+
+function drawPipeSegment(x, y, w, h, isTop) {
+  const grad = ctx.createLinearGradient(x, 0, x + w, 0);
+  grad.addColorStop(0, '#7a4420');
+  grad.addColorStop(0.15, '#c97a35');
+  grad.addColorStop(0.5, '#a85d1f');
+  grad.addColorStop(1, '#6b3818');
+  ctx.fillStyle = grad;
+  ctx.fillRect(x, y, w, h);
+
+  const capY = isTop ? y + h - PIPE_CAP_HEIGHT : y;
+  ctx.fillStyle = '#d9822b';
+  ctx.fillRect(x - 4, capY, w + 8, PIPE_CAP_HEIGHT);
+  ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x - 4, capY, w + 8, PIPE_CAP_HEIGHT);
+}
+
+function drawBird() {
+  ctx.save();
+  ctx.translate(bird.x, bird.y);
+  ctx.rotate(bird.rotation * Math.PI / 180);
+
+  const wingLift = Math.sin(bird.wingPhase) * 5;
+
+  ctx.fillStyle = '#e8a93c';
+  ctx.beginPath();
+  ctx.ellipse(-3, 2 + wingLift * 0.3, 9, 5, -0.3, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ffcf56';
+  ctx.beginPath();
+  ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#1b1330';
+  ctx.beginPath();
+  ctx.arc(5, -4, 2.4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ff7b54';
+  ctx.beginPath();
+  ctx.moveTo(bird.radius - 2, 0);
+  ctx.lineTo(bird.radius + 10, -3);
+  ctx.lineTo(bird.radius + 10, 4);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawGround() {
+  ctx.fillStyle = '#2a1b3d';
+  ctx.fillRect(0, canvas.height - GROUND_HEIGHT, canvas.width, GROUND_HEIGHT);
+  ctx.fillStyle = '#ffcf56';
+  ctx.fillRect(0, canvas.height - GROUND_HEIGHT, canvas.width, 3);
+}
+
+function drawScore() {
+  ctx.fillStyle = 'rgba(27,19,48,0.4)';
+  ctx.font = "700 36px 'Baloo 2', sans-serif";
+  ctx.textAlign = 'center';
+  ctx.fillText(score, canvas.width / 2 + 2, 54 + 2);
+  ctx.fillStyle = '#fdf3e7';
+  ctx.fillText(score, canvas.width / 2, 54);
+}
+
+function drawMenu() {
+  ctx.fillStyle = 'rgba(20,10,35,0.45)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#fdf3e7';
+  ctx.font = "700 24px 'Baloo 2', sans-serif";
+  ctx.textAlign = 'center';
+  ctx.fillText('Repülj neki!', canvas.width / 2, canvas.height / 2 - 160);
+
+  ctx.font = "400 13px 'Inter', sans-serif";
+  ctx.fillStyle = '#cbb9d8';
+  ctx.fillText('Válassz nehézséget', canvas.width / 2, canvas.height / 2 - 134);
