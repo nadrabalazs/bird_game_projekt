@@ -134,3 +134,47 @@ document.addEventListener('keydown', (e) => {
 });
 canvas.addEventListener('mousedown', handlePointer);
 canvas.addEventListener('touchstart', handlePointer);
+function update() {
+  frame++;
+  if (state !== GAME_STATE.PLAYING) return;
+
+  bird.velocity += GRAVITY;
+  bird.y += bird.velocity;
+  bird.rotation = Math.max(-25, Math.min(90, bird.velocity * 4));
+  bird.wingPhase += 0.3;
+
+  const speed = currentPipeSpeed();
+
+  for (const pipe of pipes) {
+    pipe.x -= speed;
+    if (!pipe.passed && pipe.x + PIPE_WIDTH < bird.x) {
+      pipe.passed = true;
+      score++;
+    }
+  }
+
+  pipes = pipes.filter(p => p.x + PIPE_WIDTH > 0);
+  if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - PIPE_SPACING) {
+    spawnPipe();
+  }
+
+  checkCollisions();
+}
+
+function checkCollisions() {
+  if (bird.y + bird.radius > canvas.height - GROUND_HEIGHT || bird.y - bird.radius < 0) {
+    gameOver();
+    return;
+  }
+  for (const pipe of pipes) {
+    const withinX = bird.x + bird.radius > pipe.x && bird.x - bird.radius < pipe.x + PIPE_WIDTH;
+    if (withinX) {
+      const hitsTop = bird.y - bird.radius < pipe.top;
+      const hitsBottom = bird.y + bird.radius > pipe.bottom;
+      if (hitsTop || hitsBottom) {
+        gameOver();
+        return;
+      }
+    }
+  }
+}
