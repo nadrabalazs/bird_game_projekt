@@ -320,3 +320,37 @@ function drawMenu() {
   ctx.font = "400 13px 'Inter', sans-serif";
   ctx.fillStyle = '#cbb9d8';
   ctx.fillText('Válassz nehézséget', canvas.width / 2, canvas.height / 2 - 134);
+
+  // előnézeti madár
+  ctx.fillStyle = '#ffcf56';
+  ctx.beginPath();
+  ctx.arc(canvas.width / 2, canvas.height / 2 - 195, 13, 0, Math.PI * 2);
+  ctx.fill();
+
+  // nehézségi gombok
+  menuButtons.length = 0;
+  const keys = ['easy', 'medium', 'hard', 'impossible'];
+  const btnW = 200, btnH = 42, gap = 12;
+  const startY = canvas.height / 2 - 100;
+
+  keys.forEach((key, i) => {
+    const x = canvas.width / 2 - btnW / 2;
+    const y = startY + i * (btnH + gap);
+    const isSelected = key === selectedDifficulty;
+    const diff = DIFFICULTIES[key];
+
+    ctx.fillStyle = isSelected ? 'rgba(255,207,86,0.18)' : 'rgba(255,255,255,0.06)';
+    ctx.strokeStyle = isSelected ? '#ffcf56' : 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = isSelected ? 2 : 1;
+    roundRect(x, y, btnW, btnH, 10);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = isSelected ? '#ffcf56' : '#fdf3e7';
+    ctx.font = "700 16px 'Baloo 2', sans-serif";
+    ctx.textAlign = 'center';
+    ctx.fillText(diff.label, canvas.width / 2, y + btnH / 2 + 5);
+
+    menuButtons.push({ key, x, y, w: btnW, h: btnH });
+  });
+}
