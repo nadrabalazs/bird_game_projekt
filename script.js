@@ -178,3 +178,14 @@ function checkCollisions() {
     }
   }
 }
+
+function gameOver() {
+  if (state !== GAME_STATE.PLAYING) return;
+  state = GAME_STATE.GAMEOVER;
+  const best = highScores[selectedDifficulty] || 0;
+  if (score > best) {
+    highScores[selectedDifficulty] = score;
+    localStorage.setItem('madarasHighScores', JSON.stringify(highScores));
+    updateHighScoreLabel();
+  }
+}
