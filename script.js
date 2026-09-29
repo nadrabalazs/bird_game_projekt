@@ -189,3 +189,49 @@ function gameOver() {
     updateHighScoreLabel();
   }
 }
+
+// ---- Render ----
+function draw() {
+  drawBackground();
+
+  if (state === GAME_STATE.MENU) {
+    drawGround();
+    drawMenu();
+  } else {
+    drawPipes();
+    drawBird();
+    drawGround();
+    drawScore();
+    if (state === GAME_STATE.GAMEOVER) drawGameOver();
+  }
+}
+
+function drawBackground() {
+  const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  sky.addColorStop(0, '#241147');
+  sky.addColorStop(0.45, '#4a2660');
+  sky.addColorStop(0.75, '#8a4966');
+  sky.addColorStop(1, '#e0794f');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const sunY = canvas.height * 0.62;
+  const glow = ctx.createRadialGradient(canvas.width / 2, sunY, 10, canvas.width / 2, sunY, 130);
+  glow.addColorStop(0, 'rgba(255,207,86,0.55)');
+  glow.addColorStop(1, 'rgba(255,207,86,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ffd166';
+  ctx.beginPath();
+  ctx.arc(canvas.width / 2, sunY, 42, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(27,19,48,0.55)';
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height - GROUND_HEIGHT);
+  ctx.quadraticCurveTo(canvas.width * 0.25, canvas.height - GROUND_HEIGHT - 70, canvas.width * 0.5, canvas.height - GROUND_HEIGHT - 20);
+  ctx.quadraticCurveTo(canvas.width * 0.75, canvas.height - GROUND_HEIGHT + 20, canvas.width, canvas.height - GROUND_HEIGHT - 40);
+  ctx.lineTo(canvas.width, canvas.height - GROUND_HEIGHT);
+  ctx.closePath();
+  ctx.fill();
+}
